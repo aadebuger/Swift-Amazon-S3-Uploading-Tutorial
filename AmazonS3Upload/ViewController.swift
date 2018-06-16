@@ -22,16 +22,18 @@ class ViewController: UIViewController {
 	@IBAction func uploadButtonAction(_ sender: UIButton) {
 		uploadButton.isHidden = true
 		activityIndicator.startAnimating()
-		
-		let accessKey = "PLEASE_ENTER_YOUR_AMAZON_S3_ACCESS_KEY"
-		let secretKey = "PLEASE_ENTER_YOUR_AMAZON_S3_SECRET_KEY"
+        AWSDDLog.sharedInstance.logLevel = .verbose
+		let accessKey = "JHK0LLTPIBB23UEP48AS"
+		let secretKey = "F1fFdwyz6k9aGGmdpG6Q7BvviR/e3FQyql/3J3v/"
 		
 		let credentialsProvider = AWSStaticCredentialsProvider(accessKey: accessKey, secretKey: secretKey)
-		let configuration = AWSServiceConfiguration(region:AWSRegionType.USEast1, credentialsProvider:credentialsProvider)
+		let configuration = AWSServiceConfiguration(region:AWSRegionType.USEast1,
+                                                    endpoint: AWSEndpoint(region: .USEast1, service: .S3, url: URL(string:"http://192.168.31.82")),
+                                                    credentialsProvider:credentialsProvider)
 		
 		AWSServiceManager.default().defaultServiceConfiguration = configuration
 		
-		let S3BucketName = "BUCKET_NAME"
+		let S3BucketName = "myphoto"
 		let remoteName = "test.jpg"
 		let fileURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(remoteName)
 		let image = UIImage(named: "test")
